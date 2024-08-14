@@ -81,8 +81,8 @@ router.post("/login", async (req, res) => {
 // Update user
 router.patch("/update/:userId", async (req, res) => {
   try {
-    
-    const { _id, name, email, password, phoneNo, profession } = req.body;
+    let _id = req.params.userId
+    const {  name, email, password, phoneNo, profession } = req.body;
 
     const updateFields = { name, email, phoneNo, profession };
     if (password) {
