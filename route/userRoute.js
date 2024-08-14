@@ -15,6 +15,19 @@ router.get("/users", async(req, res) => {
  
 });
 
+router.get("/users/:userId", async(req, res) => {
+  try {
+    let _id = req.params.userId
+    let allUser = await User.findOne({_id})
+    return res.status(200).send(allUser)
+  } catch (error) {
+    return res.status(500).send(`Internal server error ${error.message}`)
+  }
+ 
+});
+
+
+
 // Create user
 router.post("/register", async (req, res) => {
   try {
@@ -66,8 +79,9 @@ router.post("/login", async (req, res) => {
 });
 
 // Update user
-router.patch("/update", async (req, res) => {
+router.patch("/update/:userId", async (req, res) => {
   try {
+    
     const { _id, name, email, password, phoneNo, profession } = req.body;
 
     const updateFields = { name, email, phoneNo, profession };
