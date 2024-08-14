@@ -5,8 +5,14 @@ const User = require("../model/user");
 const router = express.Router();
 const dotenv = require("dotenv").config()
 
-router.get("/", (req, res) => {
-  return res.status(200).send("User router is working");
+router.get("/users", async(req, res) => {
+  try {
+    let allUser = await User.find()
+    return res.status(200).send(allUser)
+  } catch (error) {
+    return res.status(500).send(`Internal server error ${error.message}`)
+  }
+ 
 });
 
 // Create user
@@ -85,8 +91,8 @@ router.patch("/update", async (req, res) => {
 });
 
 // Delete user
-router.delete("/delete", async (req, res) => {
-  const { _id } = req.body;
+router.delete("/delete/:userId", async (req, res) => {
+  const _id  = req.params.userId;
   try {
     const deleteUser = await User.findOneAndDelete({ _id });
     if (!deleteUser) {
